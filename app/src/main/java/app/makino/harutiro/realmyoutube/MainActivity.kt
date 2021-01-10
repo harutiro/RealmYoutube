@@ -67,6 +67,31 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        //satouを探す
+        readS.setOnClickListener {
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).equalTo("name","satou").findAll()
+
+            var out = ""
+
+            println("===============================")
+
+            //出力部分
+            for(person in persons) {
+                out += ("name = " + person.name + "　" + "age = " + person.age + "\n")
+
+            }
+
+            println(out)
+        }
+
+
+
 
 
 
