@@ -90,6 +90,53 @@ class MainActivity : AppCompatActivity() {
             println(out)
         }
 
+        //名前に＊をつける
+        update.setOnClickListener {
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).findAll()
+
+            realm.executeTransaction{
+                for (person in persons){
+                    person.name += "*"
+                }
+
+            }
+            println("更新完了")
+
+
+        }
+
+        //全部アスタリスクにしちゃう
+        updateAll.setOnClickListener{
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).findAll()
+
+            realm.executeTransaction{
+                for (person in persons){
+                    person.name = "*******"
+                }
+
+            }
+            println("更新完了")
+        }
+
+        //satouを消す
+        delete.setOnClickListener {
+
+        }
+
+
+
 
 
 
