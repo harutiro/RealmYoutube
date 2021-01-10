@@ -55,15 +55,16 @@ class MainActivity : AppCompatActivity() {
 
             var out = ""
 
-            println("===============================")
-
             //出力部分
             for(person in persons) {
                  out += ("name = " + person.name + "　" + "age = " + person.age + "\n")
 
             }
 
+            println("===============================")
             println(out)
+
+
 
         }
 
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
             var out = ""
 
-            println("===============================")
+
 
             //出力部分
             for(person in persons) {
@@ -87,7 +88,9 @@ class MainActivity : AppCompatActivity() {
 
             }
 
+            println("===============================")
             println(out)
+
         }
 
         //名前に＊をつける
@@ -106,7 +109,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+            println("===============================")
             println("更新完了")
+
 
 
         }
@@ -127,11 +132,90 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+            println("===============================")
             println("更新完了")
+
         }
 
         //satouを消す
         delete.setOnClickListener {
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).equalTo("name","satou").findAll()
+
+
+            //読み込んだデータを一時配列に入れる
+            var personArray = mutableListOf<DateClass>()
+            for(person in persons){
+                personArray.add(person)
+            }
+
+            //配列に入ったデータを消す
+            realm.executeTransaction {
+                for (person in persons){
+                    person.deleteFromRealm()
+                }
+            }
+
+            println("===============================")
+            println("satou消去完了")
+
+
+        }
+
+        //全部消す
+        deleteAll.setOnClickListener {
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).findAll()
+
+            //全データ消す
+            realm.executeTransaction {
+                realm.deleteAll()
+            }
+            println("===============================")
+            println("消去完了")
+
+        }
+
+        //初期データ作成
+        init.setOnClickListener {
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).findAll()
+
+            realm.executeTransaction{
+                realm.deleteAll()
+
+                val new1:DateClass = it.createObject(DateClass::class.java)
+                new1.name = "satou"
+                new1.age = "20"
+
+                val new2:DateClass = it.createObject(DateClass::class.java)
+                new2.name = "takahasi"
+                new2.age = "34"
+
+                val new3:DateClass = it.createObject(DateClass::class.java)
+                new3.name = "oota"
+                new3.age = "12"
+
+            }
+
+
+            println("===============================")
+            println("追加完了")
 
         }
 
