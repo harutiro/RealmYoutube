@@ -6,6 +6,6 @@ open class DateClass (//メモのクラスを定義 //openを書くのはRealm�
     //保存するデータの要素となる変数を定義する
 
     open var name:String = "",
-    open var age:Int = 0
+    open var age:String = ""
 
         ):RealmObject()//RealmObjectという方を継承している部分 メモというクラスをRealmで保存できる型にすることができる
