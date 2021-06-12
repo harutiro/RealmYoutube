@@ -219,6 +219,91 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        findViewById<Button>(R.id.hairetuButton).setOnClickListener{
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).findAll()
+
+            realm.executeTransaction{
+
+                val new1:DateClass = it.createObject(DateClass::class.java).apply{
+                    this.name = "satou"
+                    this.age = "20"
+
+                    val hairetuObject = it.createObject(SubDateClass::class.java).apply{
+                        this.hello = "よろしく"
+                        this.yahho = "どうも"
+                    }
+
+                    this.hairetus?.add(hairetuObject)
+                }
+
+                val new2:DateClass = it.createObject(DateClass::class.java).apply{
+                    this.name = "katou"
+                    this.age = "30"
+
+                    val hairetuObject = it.createObject(SubDateClass::class.java).apply{
+                        this.hello = "yorosiku"
+                        this.yahho = "doumo"
+                    }
+
+                    this.hairetus?.add(hairetuObject)
+                }
+
+                val new3:DateClass = it.createObject(DateClass::class.java).apply{
+                    this.name = "yamada"
+                    this.age = "40"
+
+                    val hairetuObject = it.createObject(SubDateClass::class.java).apply{
+                        this.hello = "hello"
+                        this.yahho = "yaho"
+                    }
+
+                    this.hairetus?.add(hairetuObject)
+                }
+
+
+
+
+
+            }
+
+
+            println("===============================")
+            println("追加完了")
+
+
+        }
+
+        findViewById<Button>(R.id.hairetuOutputButton).setOnClickListener{
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).findAll()
+
+            var out = ""
+
+            //出力部分
+            for(person in persons) {
+                out += ("name = " + person.name + "　" + "age = " + person.age + "\n")
+
+                for(i in person.hairetus!!){
+                    out += ("***hello = " + i.hello + " " + "yaho = " + i.yahho + "\n")
+                }
+
+            }
+
+            println("===============================")
+            println(out)
+        }
+
 
 
 
