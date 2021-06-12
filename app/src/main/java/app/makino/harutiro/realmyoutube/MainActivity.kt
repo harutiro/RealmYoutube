@@ -304,6 +304,29 @@ class MainActivity : AppCompatActivity() {
             println(out)
         }
 
+        findViewById<Button>(R.id.hairetuInputButton).setOnClickListener{
+            //realmのインスタンス
+            val realm:Realm = Realm.getDefaultInstance()
+
+            //realm.where(DBのクラス::class.java).findAll().sort(フィールド名)
+            //.findAll()は全検索。
+            //.sort(フィールド名)はソート。
+            val persons: RealmResults<DateClass> = realm.where(DateClass::class.java).findAll()
+
+            realm.executeTransaction{
+
+                for (person in persons){
+                    for(i in person.hairetus!!){
+                        i.hello += "*"
+                        i.yahho += "*"
+                    }
+                }
+
+            }
+            println("===============================")
+            println("更新完了")
+        }
+
 
 
 
